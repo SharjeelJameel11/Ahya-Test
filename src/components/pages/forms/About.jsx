@@ -1,6 +1,6 @@
 
 import TextInput from "../../TextInput";
-function ExpertiseForm({ data, updateField, onNext }) {
+function AboutForm({ data, updateField, onNext }) {
   return (
     <TextInput
       placeholder="Write Description"
@@ -11,4 +11,4 @@ function ExpertiseForm({ data, updateField, onNext }) {
   );
 }
 
-export default ExpertiseForm;
+export default AboutForm;

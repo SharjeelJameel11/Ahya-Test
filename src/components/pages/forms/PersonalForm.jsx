@@ -16,22 +16,30 @@ const personalFields = [
   { key: "website", label: "Website URL (optional)", placeholder: "https://yourwebsite.com" },
 ];
 
-function PersonalForm({ data, updateField }) {
+function PersonalForm({ data, updateField ,onNext }) {
   return (
     <>
       <ImageUpload value={data.photo} onChange={(val) => updateField("photo", val)} />
 
-      {personalFields.map((field) => (
-        <FormInput
-          key={field.key}
-          label={field.label}
-          value={data[field.key]}
-          onChange={(val) => updateField(field.key, val)}
-          placeholder={field.placeholder}
-          type={field.type || "text"}
-          required={field.required}
-        />
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {personalFields.map((field) => (
+          <FormInput
+            key={field.key}
+            label={field.label}
+            value={data[field.key]}
+            onChange={(val) => updateField(field.key, val)}
+            placeholder={field.placeholder}
+            type={field.type || "text"}
+            required={field.required}
+            className={field.key === "address" ? "md:col-span-2" : ""}
+          />
+        ))}
+      </div>
+     <div className="flex justify-end">
+     <button onClick={onNext} className="bg-blue-800 text-[1.4rem] text-white rounded-2xl py-2 px-8">
+     Next
+     </button>
+     </div>
     </>
   );
 }

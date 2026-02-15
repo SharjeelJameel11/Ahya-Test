@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com');
 @import "tailwindcss";
 html {
     font-size: 62.5%; /* 10px equivalent */
   }
+
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }  
   
