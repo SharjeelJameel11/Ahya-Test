@@ -1,59 +1,79 @@
-// src/forms/ReferencesForm.js
+import { useNavigate } from "react-router-dom";
 import FormInput from "../../FormInput";
 
-function ReferencesForm({ data, addItem, updateItem, removeItem, isEdit,onNext }) {
-  const referencesData = data.length ? data : [{
-    name: "",
-    position: "",
-    company: "",
-    phone: "",
-    email: "",
-    relation: "",
-  }];
+function ReferencesForm({
+  selectedTemplate,
+  resumeData,
+  data,
+  addItem,
+  updateItem,
+  removeItem,
+  isEdit,
+}) {
 
+  const navigate = useNavigate();
+
+  const save = () => {
+    localStorage.setItem(
+      "resumeData",
+      JSON.stringify(resumeData)
+    );
+    localStorage.setItem(
+      "selectedTemplate",
+      selectedTemplate
+    );
+    navigate("/preview");
+  };
+
+  const referencesData = data.length
+    ? data
+    : [
+        {
+          name: "",
+          position: "",
+          phone: "",
+          email: "",
+        },
+      ];
+      const isNextDisabled = referencesData.some(ref => 
+        !ref.name || !ref.position || !ref.phone || !ref.email
+      );
   return (
     <div className="space-y-6">
       {referencesData.map((ref, index) => (
-        <div key={index} >
+        <div key={index}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInput
               label="Reference Name"
               value={ref.name}
-              onChange={v => updateItem(index, "name", v)}
-              placeholder="e.g Ahmed Khan"
+              placeholder="name"
+              onChange={(v) => updateItem(index, "name", v)}
               required
             />
+
             <FormInput
-              label="Position / Title"
+              label="Position"
+              placeholder="manager etc"
               value={ref.position}
-              onChange={v => updateItem(index, "position", v)}
-              placeholder="e.g Senior Manager"
+              onChange={(v) => updateItem(index, "position", v)}
+              required
             />
-            <FormInput
-              label="Company"
-              value={ref.company}
-              onChange={v => updateItem(index, "company", v)}
-              placeholder="e.g XYZ Solutions"
-            />
+
             <FormInput
               label="Phone"
               value={ref.phone}
-              onChange={v => updateItem(index, "phone", v)}
-              placeholder="+92 321 1234567"
+              placeholder="contact no"
+              onChange={(v) => updateItem(index, "phone", v)}
+              required
             />
+
             <FormInput
               label="Email"
               type="email"
               value={ref.email}
-              onChange={v => updateItem(index, "email", v)}
-              placeholder="ahmed@company.com"
-            />
-            <FormInput
-              label="Relation"
-              value={ref.relation}
-              onChange={v => updateItem(index, "relation", v)}
-              placeholder="e.g Former Manager, Colleague"
-              className="md:col-span-2"
+              placeholder="email"
+              onChange={(v) => updateItem(index, "email", v)}
+              required
             />
           </div>
 
@@ -70,7 +90,7 @@ function ReferencesForm({ data, addItem, updateItem, removeItem, isEdit,onNext }
                   onClick={() => removeItem(index)}
                   className="text-red-500 text-[1.4rem]"
                 >
-                  delete
+                  Delete
                 </button>
               </div>
             </div>
@@ -81,24 +101,34 @@ function ReferencesForm({ data, addItem, updateItem, removeItem, isEdit,onNext }
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={() => addItem({
-            name: "",
-            position: "",
-            company: "",
-            phone: "",
-            email: "",
-            relation: "",
-          })}
+          onClick={() =>
+            addItem({
+              name: "",
+              position: "",
+              phone: "",
+              email: "",
+            })
+          }
           className="text-[1.4rem] text-[#00318B]"
         >
           + Add Reference
         </button>
       </div>
+
       <div className="flex justify-end">
-     <button onClick={onNext} className="bg-blue-800 text-[1.4rem] text-white rounded-2xl py-2 px-8">
-     Next
-     </button>
-     </div>
+        <button
+          onClick={save}
+          disabled={isNextDisabled}
+          className={`rounded-2xl py-2 px-8 ${
+            isNextDisabled
+              ? "bg-[#E9EAEC] text-[#0A0F2940]"
+              : "bg-blue-800 text-white"
+          }`}
+
+        >
+          Save
+        </button>
+      </div>
     </div>
   );
 }

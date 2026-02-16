@@ -1,4 +1,3 @@
-// src/forms/LanguageForm.js
 import FormInput from "../../FormInput";
 
 function LanguageForm({ data, addItem, updateItem, removeItem, isEdit,onNext }) {
@@ -37,7 +36,7 @@ function LanguageForm({ data, addItem, updateItem, removeItem, isEdit,onNext }) 
                   onClick={() => removeItem(index)}
                   className="text-red-500 text-[1.4rem]"
                 >
-                  delete
+                  Delete
                 </button>
               </div>
             </div>

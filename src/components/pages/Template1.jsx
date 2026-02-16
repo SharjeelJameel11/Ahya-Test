@@ -4,7 +4,7 @@ import { Contact, References, SocialLink } from "../../assets/svg";
 const Template1 = ({ resumeData }) => {
   return (
     <div>
-      <div className="grid grid-cols-5 min-h-[1100px]">
+      <div className="grid  grid-cols-5 min-h-[900px]">
         <Sidebar resumeData={resumeData} />
         <MainContent resumeData={resumeData} />
       </div>
@@ -14,21 +14,15 @@ const Template1 = ({ resumeData }) => {
 
 export default Template1;
 
-/* ================= SIDEBAR ================= */
-
 const Sidebar = ({ resumeData }) => {
   const { personal, references } = resumeData;
 
   return (
     <div className="col-span-2 relative bg-[#1F1F1F] py-10 px-6 text-white flex flex-col items-center">
-
-      {/* Orange Triangle */}
       <div
         className="absolute top-0 left-0 w-full h-[200px] bg-[#EB632C]"
         style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
       />
-
-      {/* Avatar */}
       <div className="relative top-5 z-10 flex justify-center mb-12">
         <div className="w-40 h-40 bg-white p-1 rounded-full">
           {personal?.photo ? (
@@ -45,7 +39,7 @@ const Sidebar = ({ resumeData }) => {
 
       <div className="relative z-10 w-full space-y-10 text-sm">
 
-        {/* CONTACT */}
+        
         {(personal?.phone || personal?.email || personal?.address) && (
           <Section title="Contact Me" Icon={Contact}>
             {personal.phone && <p>{personal.phone}</p>}
@@ -53,8 +47,6 @@ const Sidebar = ({ resumeData }) => {
             {personal.address && <p>{personal.address}</p>}
           </Section>
         )}
-
-        {/* SOCIAL LINKS */}
         {(personal?.linkedin ||
           personal?.indeed ||
           personal?.behance ||
@@ -67,35 +59,32 @@ const Sidebar = ({ resumeData }) => {
           </Section>
         )}
 
-        {/* REFERENCES */}
+        
         {references?.some(
           (ref) =>
             ref.name ||
             ref.position ||
-            ref.company ||
             ref.phone ||
-            ref.email ||
-            ref.relation
+            ref.email
         ) && (
           <Section title="References" Icon={References}>
             {references.map((ref, index) => (
               <div key={index} className="mb-4 space-y-1">
                 {ref.name && <p className="font-semibold text-white">{ref.name}</p>}
                 {ref.position && <p>{ref.position}</p>}
-                {ref.company && <p>{ref.company}</p>}
                 {ref.phone && <p>{ref.phone}</p>}
                 {ref.email && <p>{ref.email}</p>}
-                {ref.relation && <p>{ref.relation}</p>}
               </div>
             ))}
           </Section>
         )}
+
       </div>
     </div>
   );
 };
 
-/* ================= MAIN CONTENT ================= */
+
 
 const MainContent = ({ resumeData }) => {
   const { personal, about, experience, education, expertise, language } =
@@ -103,89 +92,92 @@ const MainContent = ({ resumeData }) => {
 
   return (
     <div className="col-span-3 relative px-10 py-8 bg-[#F9F9F9]">
-
-      {/* HEADER */}
       <div className="mb-10">
         <h1 className="text-3xl font-bold">{personal?.fullName}</h1>
         <p className="text-lg text-gray-600">{personal?.title}</p>
       </div>
 
-      {/* ABOUT */}
+   
       {about && (
         <MainSection title="About Me">
           <div dangerouslySetInnerHTML={{ __html: about }} />
         </MainSection>
       )}
 
-      {/* EXPERIENCE */}
+  
       {experience?.some(
         (exp) =>
           exp.company ||
           exp.position ||
-          exp.description
+          exp.from ||
+          exp.to
       ) && (
         <MainSection title="Work Experience">
           {experience.map((exp, index) => (
             <div key={index} className="mb-6">
+
               {exp.position && (
                 <h4 className="font-semibold">{exp.position}</h4>
               )}
+
               {exp.company && (
                 <p className="text-sm text-gray-600">
-                  {exp.company} | {exp.startMonth} {exp.startYear} -{" "}
+                  {exp.company} | {exp.from} -{" "}
                   {exp.currentlyWorking
                     ? "Present"
-                    : `${exp.endMonth} ${exp.endYear}`}
+                    : exp.to}
                 </p>
               )}
-              {exp.description && (
-                <div
-                  className="text-sm mt-2"
-                  dangerouslySetInnerHTML={{ __html: exp.description }}
-                />
-              )}
+
             </div>
           ))}
         </MainSection>
       )}
 
-      {/* EDUCATION */}
+     
       {education?.some(
         (edu) =>
-          edu.institution ||
-          edu.degree ||
-          edu.description
+          edu.levelofeducation ||
+          edu.fieldofstudy ||
+          edu.university ||
+          edu.passingyear
       ) && (
         <MainSection title="Education">
           {education.map((edu, index) => (
             <div key={index} className="mb-6">
-              {edu.degree && (
-                <h4 className="font-semibold">{edu.degree}</h4>
+
+              {edu.levelofeducation && (
+                <h4 className="font-semibold">
+                  {edu.levelofeducation}
+                </h4>
               )}
-              {edu.institution && (
+
+              {(edu.fieldofstudy || edu.university) && (
                 <p className="text-sm text-gray-600">
-                  {edu.institution} | {edu.startYear} - {edu.endYear}
+                  {edu.fieldofstudy}
+                  {edu.fieldofstudy && edu.university && " - "}
+                  {edu.university}
                 </p>
               )}
-              {edu.cgpa && (
-                <p className="text-sm">CGPA: {edu.cgpa}</p>
+
+              {edu.passingyear && (
+                <p className="text-sm">
+                  Passing Year: {edu.passingyear}
+                </p>
               )}
-              {edu.description && (
-                <p className="text-sm mt-1">{edu.description}</p>
-              )}
+
             </div>
           ))}
         </MainSection>
       )}
 
-      {/* EXPERTISE */}
       {expertise && (
         <MainSection title="Areas of Expertise">
           <div dangerouslySetInnerHTML={{ __html: expertise }} />
         </MainSection>
       )}
 
-      {/* LANGUAGE */}
+
       {language?.some((lang) => lang.name || lang.level) && (
         <MainSection title="Language">
           {language.map((lang, index) => (
@@ -199,9 +191,10 @@ const MainContent = ({ resumeData }) => {
       
       <div
         className="absolute bottom-0 right-0 w-0 h-0
-        border-b-[150px] border-b-[#EB632C]
-        border-l-[150px] border-l-transparent"
+        border-b-[80px] border-b-[#EB632C]
+        border-l-[80px] border-l-transparent"
       />
+
     </div>
   );
 };

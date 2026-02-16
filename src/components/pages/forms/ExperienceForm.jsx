@@ -1,75 +1,65 @@
-// src/forms/ExperienceForm.js
 import FormInput from "../../FormInput";
 
-function ExperienceForm({ data, addItem, updateItem, removeItem, isEdit,onNext }) {
-  const experienceData = data.length ? data : [{
-    company: "",
-    position: "",
-    startMonth: "",
-    startYear: "",
-    endMonth: "",
-    endYear: "",
-    currentlyWorking: false,
-    description: "",
-  }];
+function ExperienceForm({ data, addItem, updateItem, removeItem, isEdit, onNext }) {
+
+  const experienceData = data.length
+    ? data
+    : [{
+        company: "",
+        position: "",
+        from: "",
+        to: "",
+        currentlyWorking: false,
+      }];
+  const isNextDisabled = experienceData.some(exp => {
+    return (
+      !exp.company ||
+      !exp.position ||
+      !exp.from ||
+      (!exp.currentlyWorking && !exp.to) 
+    );
+  });
 
   return (
     <div className="space-y-6">
       {experienceData.map((exp, index) => (
-        <div key={index} >
+        <div key={index}>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
             <FormInput
               label="Company Name"
               value={exp.company}
+              placeholder="company name"
               onChange={v => updateItem(index, "company", v)}
-              placeholder="e.g TechCorp Pvt Ltd"
               required
             />
+
             <FormInput
               label="Position / Role"
+              placeholder="position"
               value={exp.position}
               onChange={v => updateItem(index, "position", v)}
-              placeholder="e.g Frontend Developer"
               required
             />
 
             <FormInput
-              label="Start Month"
-              value={exp.startMonth}
-              onChange={v => updateItem(index, "startMonth", v)}
-              placeholder="Jan"
-            />
-            <FormInput
-              label="Start Year"
-              type="number"
-              value={exp.startYear}
-              onChange={v => updateItem(index, "startYear", v)}
-              placeholder="2022"
+              label="From"
+              value={exp.from}
+              onChange={v => updateItem(index, "from", v)}
+              placeholder="e.g Jan 2022"
+              required
             />
 
             <FormInput
-              label="End Month"
-              value={exp.endMonth}
-              onChange={v => updateItem(index, "endMonth", v)}
-              placeholder="Dec"
+              label="To"
+              value={exp.currentlyWorking ? "Present" : exp.to}
+              onChange={v => updateItem(index, "to", v)}
               disabled={exp.currentlyWorking}
-            />
-            <FormInput
-              label="End Year"
-              type="number"
-              value={exp.endYear}
-              onChange={v => updateItem(index, "endYear", v)}
-              placeholder="2024"
-              disabled={exp.currentlyWorking}
+              placeholder="e.g Dec 2024"
+              required={!exp.currentlyWorking} 
             />
 
-            <FormInput
-              label="Description / Responsibilities"
-              value={exp.description}
-              onChange={v => updateItem(index, "description", v)}
-              placeholder="Key achievements, projects..."
-              className="md:col-span-2"
-            />
           </div>
 
           <label className="flex items-center space-x-2 mt-2">
@@ -94,7 +84,7 @@ function ExperienceForm({ data, addItem, updateItem, removeItem, isEdit,onNext }
                   onClick={() => removeItem(index)}
                   className="text-red-500 text-[1.4rem]"
                 >
-                  delete
+                  Delete
                 </button>
               </div>
             </div>
@@ -106,26 +96,34 @@ function ExperienceForm({ data, addItem, updateItem, removeItem, isEdit,onNext }
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={() => addItem({
-            company: "",
-            position: "",
-            startMonth: "",
-            startYear: "",
-            endMonth: "",
-            endYear: "",
-            currentlyWorking: false,
-            description: "",
-          })}
+          onClick={() =>
+            addItem({
+              company: "",
+              position: "",
+              from: "",
+              to: "",
+              currentlyWorking: false,
+            })
+          }
           className="text-[1.4rem] text-[#00318B]"
         >
           + Add Another
         </button>
       </div>
+
       <div className="flex justify-end">
-     <button onClick={onNext} className="bg-blue-800 text-[1.4rem] text-white rounded-2xl py-2 px-8">
-     Next
-     </button>
-     </div>
+        <button
+          onClick={onNext}
+          disabled={isNextDisabled}
+          className={`rounded-2xl py-2 px-8 ${
+            isNextDisabled
+              ? "bg-[#E9EAEC] text-[#0A0F2940]"
+              : "bg-blue-800 text-white"
+          }`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

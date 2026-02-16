@@ -1,7 +1,7 @@
-// src/components/InitialData.js  (ya jo bhi naam hai tumhara file)
+
 export const initialResumeData = {
   personal: {
-    photo: null,          // base64 string
+    photo: null,          
     fullName: "",
     title: "",
     email: "",
@@ -12,15 +12,14 @@ export const initialResumeData = {
     behance: "",
     website: "",
   },
-  about: "",              // rich text HTML string (About me)
+  about: "",              
   education: [
     {
-      institution: "",
-      degree: "",
-      startYear: "",
-      endYear: "",
-      cgpa: "",
-      description: "",
+      levelofeducation: "",
+      fieldofstudy: "",
+      passingyear: "",
+      university: "",
+    
     }
   ],
   language: [
@@ -33,23 +32,18 @@ export const initialResumeData = {
     {
       company: "",
       position: "",
-      startMonth: "",
-      startYear: "",
-      endMonth: "",
-      endYear: "",
+     from:"",
+     to :"",
       currentlyWorking: false,
-      description: "",
     }
   ],
-  expertise: "",          // rich text HTML string (Areas of expertise)
+  expertise: "",          
   references: [
     {
       name: "",
       position: "",
-      company: "",
       phone: "",
       email: "",
-      relation: "",
     }
   ],
 };
