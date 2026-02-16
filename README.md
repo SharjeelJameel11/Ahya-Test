@@ -2,7 +2,7 @@ I have developed a Resume Builder frontend using React with Vite and styled it u
 
 To ensure font sizes are responsive across all screen sizes, I used the rem unit and set the base font size to 62.5% (equivalent to 10px).
 
-While developing the screens, I focused on creating generic and reusable components. I built custom components such as FormInput, ImageUpload, and TextInput so that they could be reused consistently across the application.
+While developing the screens, I focused on creating generic and reusable components. I built custom components such as FormInput, ImageUpload, and TextInput (using PrimeReact) so they could be reused consistently across the application.
 
 I also designed an initial data structure named initialData, which helped me structure and render the screens according to the requirements.
 
